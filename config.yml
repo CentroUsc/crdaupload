@@ -1,0 +1,4 @@
+# Configuration for RINEX file upload script
+
+api_url: "https://api.geodesychile.usach.cl/upload/rinex"
+token_url: "https://api.geodesychile.usach.cl/token"
