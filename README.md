@@ -1,29 +1,14 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Este script permite subir archivos RINEX desde un directorio local a los servidores de CRDASIR (Centro Regional de Datos Alternos SIRGAS).
 
-### What is this repository for? ###
+### Instalación ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1. Instalar python.
+2. Instalar dependencias:
+`pip install -r requeriments.txt`
 
-### How do I get set up? ###
+### Modo de uso ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* `python upload_rinex.py -d <directorio>`
