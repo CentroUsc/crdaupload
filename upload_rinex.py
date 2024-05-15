@@ -103,7 +103,7 @@ async def main():
     if not p.is_dir():
         logger.error("%s no es un directorio", str(p))
         exit(1)
-        
+    print("Upload RINEX CRDASIR %s"%(__version__))    
     username = input("Usuario:")
     password = getpass()
     
