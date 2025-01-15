@@ -106,8 +106,8 @@ async def main():
     print("Upload RINEX CRDASIR %s"%(__version__))    
     username = input("Usuario:")
     password = getpass()
-    
-    async with aiohttp.ClientSession() as session:
+    connector = aiohttp.TCPConnector(ssl=False)
+    async with aiohttp.ClientSession(connector=connector) as session:
         token_response = await get_token(session, token_url, username, password)
         access_token = token_response["access_token"]
         headers = {"Authorization": f'Bearer {access_token}'}
