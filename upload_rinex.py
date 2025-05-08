@@ -30,13 +30,14 @@ import argparse
 from pathlib import Path
 import datetime
 import yaml
-
+import sys
 # Load configuration
 with open('config.yml', 'r') as config_file:
     config = yaml.safe_load(config_file)
 
 api_url = config['api_url']
 token_url = config['token_url']
+update_passwd_url = config['update_passwd_url']
 
 
 # Configure logging
@@ -48,9 +49,10 @@ logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser(
     prog='upload_rinex',
     description='Este script permite subir archivos RINEX desde un directorio local a los servidores de CRDASIR (Centro Regional de Datos Alternos SIRGAS)',
-    epilog='Modo de uso'
+    epilog='Modo de uso\n python rinex_upload.py -d <directorio> \n python rinex_upload.py --change-password'
 )
-parser.add_argument('-d', dest='directory', help='directorio donde se encuentran los archivos', required=True)
+parser.add_argument('-d', dest='directory', help='directorio donde se encuentran los archivos')
+parser.add_argument('--change-password', action='store_true', help='Cambiar contraseña del usuario')
 args = parser.parse_args()
 
 async def get_token(session, token_url, username, password):
@@ -86,23 +88,54 @@ async def upload_file(session, path, api_url):
             async with session.post(api_url, data=files) as response:
                 if response.status == 200:
                     j = await response.json()
-                    logger.info("Subida exitosa: %s, Estación: %s, Año: %s, DOY: %s",
-                                path, j["station"], j["year"], j["doy"])
+                    logger.info("OK: %s",path)
+                elif response.status==409:
+                    logger.info("OK*: %s",path)
                 else:
-                    logger.error("Error subiendo archivo %s: %s", path, response.status)
+                    try:
+                        j = await response.json()
+                        logger.error("Error archivo %s, %s", path,j['detail'] )
+                    except Exception as e:
+                        logger.error(str(e))
     else:
         logger.info("Archivo omitido: %s", path)
 
+
+async def update_password(session,api_url):
+    old_password = getpass("Password actual: ")
+    new_password = getpass("Nuevo password: ")
+    confirm_password = getpass("Confirmar nuevo password: ")
+
+    if new_password != confirm_password:
+        logger.error("Nuevo password no coincide.")
+        return
+
+    data = {
+        "old_password": old_password,
+        "new_password": new_password,
+        "new_password2": confirm_password
+    }
+    async with session.put(f"{update_passwd_url}", json=data) as response:
+        if response.status == 200:
+            logger.info("Password updated successfully.")
+        else:
+            try:
+                response_json = await response.json()
+                logger.error(f"Error updating password: {response_json.get('detail')}")
+            except Exception as e:
+                logger.error(f"Error: {str(e)}")
+
+
+
+
+
+
 async def main():
-    p = Path(args.directory)
 
-    if not p.exists():
-        logger.error("Directorio %s no existe", str(p))
-        exit(1)
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
 
-    if not p.is_dir():
-        logger.error("%s no es un directorio", str(p))
-        exit(1)
     print("Upload RINEX CRDASIR %s"%(__version__))    
     username = input("Usuario:")
     password = getpass()
@@ -112,6 +145,22 @@ async def main():
         access_token = token_response["access_token"]
         headers = {"Authorization": f'Bearer {access_token}'}
         session.headers.update(headers)
+        
+        # Actualiza password
+        if args.change_password:
+            await update_password(session, api_url)
+            return  # salir después de cambiar la contraseña
+
+        # Sube archivos
+        p = Path(args.directory)
+        if not p.exists():
+            logger.error("Directorio %s no existe", str(p))
+            exit(1)
+
+        if not p.is_dir():
+            logger.error("%s no es un directorio", str(p))
+            exit(1)
+
         init_time=datetime.datetime.now()
         logger.info("Iniciando subida de archivos %s", init_time)
         tasks = [upload_file(session, path, api_url) for path in p.glob("**/*") if path.is_file()]
@@ -119,6 +168,8 @@ async def main():
         end_time=datetime.datetime.now()
         logger.info("Finalizando subida de archivos %s", end_time)
         logger.info("Tiempo transcurrido %s",end_time-init_time)
+
+
 
 if __name__ == '__main__':
     asyncio.run(main())
