@@ -1,2 +1,2 @@
-aiohttp
-PyYAML
+aiohttp==3.11.10
+PyYAML==6.0.2
