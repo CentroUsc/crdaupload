@@ -23,10 +23,10 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
 
 1. Crea un entorno virtual (opcional pero recomendado)
    
-   Es una buena práctica utilizar un entorno virtual para gestionar las dependenciasto. Para crear un entorno virtual, ejecuta los siguientes comandos:
-   
+   Es una buena práctica utilizar un entorno virtual para gestionar las dependenciasto. Para crear un entorno virtual, ejecuta los siguientes comandos desde el directorio en el que se encuentra la aplicación:
+
+   Crear un entorno virtual en la carpeta 'venv'
    ```bash
-   # Crear un entorno virtual en la carpeta 'venv'
    python -m venv venv
    ```
    Activa el entorno virtual en Windows
@@ -39,7 +39,7 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
    source venv/bin/activate
    ```
 
-2. Instala las dependencias
+1. Instala las dependencias (librerías necesarias)
    ```bash
    pip install -r requeriments.txt
    ```
@@ -47,7 +47,8 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
 ## Modo de uso
 
 ### Carga de archivos
-   Para cargar archivos RINEX desde un directorio se puede utilizar `-d <directorio>`:
+   Para cargar archivos RINEX desde un directorio se puede utilizar `-d <directorio>`
+   
    En linux:
    ```bash
    python upload_rinex.py -d ./rinex_data/
@@ -62,11 +63,11 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
    - Se subirán archivos .Z o .gz.
    - Se presentarán errores si:
       - La nomenclatura de los archivos no sigue el estándar RINEX v2 o V3.
-      - La estación no es SIRGAS
-      - El archivo RINEX es de una fecha anterior a fecha de inicio de la estación en SIRGAS.
+      - La estación no es de la red SIRGAS
+      - El archivo RINEX es de una fecha anterior a fecha de inicio de la estación en la red SIRGAS.
 
 ### Cambio de contraseña
-   Para cambiar la contraseña se puede utilizar.
+   Para cambiar la contraseña ejecute el siguiente comando y siga las instrucciones.
 
    ```bash
    python upload_rinex.py --change-password
