@@ -1,4 +1,4 @@
-# `upload_rinex.py`
+# README `upload_rinex.py`
 
 Este script permite subir archivos **RINEX** desde un directorio local a los servidores de **CRDASIR** (Centro Regional de Datos Alternos SIRGAS) de manera automatizada y asincrónica.
 
@@ -18,10 +18,6 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
    ```bash
    pip install -r requeriments.txt
    ```
-
-
-
-
 
 ### Instalación con entorno virtual 
 
@@ -61,16 +57,19 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
    python upload_rinex.py -d c:\rinex_data
    ```
 
-   A continuación ingrese su contraseña y password.
-   Si la autenticación es correcta se comenzará con la subida de archivos.
-   Se subirán archivos .Z o .gz.
-   Se presentarán errores si los archivos no son RINEX v2 o V3, la estación no es SIRGAS, el RINEX tiene una fecha anterior a fecha de inicio en SIRGAS.
+   - A continuación ingrese su contraseña y password.
+   - Si la autenticación es correcta se comenzará con la subida de archivos.
+   - Se subirán archivos .Z o .gz.
+   - Se presentarán errores si:
+      - La nomenclatura de los archivos no sigue el estándar RINEX v2 o V3.
+      - La estación no es SIRGAS
+      - El archivo RINEX es de una fecha anterior a fecha de inicio de la estación en SIRGAS.
 
 ### Cambio de contraseña
-   Para cambiar la contraseña se puede utilizar:
+   Para cambiar la contraseña se puede utilizar.
 
    ```bash
    python upload_rinex.py --change-password
    ```
-
+   
 
