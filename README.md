@@ -1,4 +1,4 @@
-# README `upload_rinex.py`
+# README upload_rinex.py
 
 Este script permite subir archivos **RINEX** desde un directorio local a los servidores de **CRDASIR** (Centro Regional de Datos Alternos SIRGAS) de manera automatizada y asincrónica.
 
@@ -8,6 +8,32 @@ Este script permite subir archivos **RINEX** desde un directorio local a los ser
 - Conexión a internet
 - Credenciales válidas de acceso
 
+
+## Para instalar python
+
+### Windows
+
+Para verificar si python se encuentra instalado presione la tecla windows+r y escriba cmd, de enter, escriba el siguiente comando:
+
+```bash
+python --version
+
+```
+Si no aparece la versión de python puede instalarlo desde la [página oficial de python](https://www.python.org/downloads/) o desde la [tienda de Microsoft](https://apps.microsoft.com/detail/9mssztt1n39l?ocid=webpdpshare).
+
+
+### Linux
+
+Para verificar si python se encuentra instalado escriba siguiente comando en el terminal:
+```bash
+python --version
+
+```
+
+Si no aparece la versión de python instálelo de acuerdo a la distribución de linux.
+
+
+
 ## 🛠 Instalación
 
 Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instalación básica o con entorno virtual.
@@ -16,7 +42,7 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
 ### Instalación básica
 1. Instalar dependencias, desde la carpeta donde se encuentra el script:
    ```bash
-   pip install -r requeriments.txt
+   pip install -r requirements.txt
    ```
 
 ### Instalación con entorno virtual 
@@ -41,7 +67,7 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
 
 1. Instala las dependencias (librerías necesarias)
    ```bash
-   pip install -r requeriments.txt
+   pip install -r requirements.txt
    ```
 
 ## Modo de uso
@@ -58,7 +84,7 @@ Clona el repositorio o descarcárgalo en tu directorio local. Realiza la instala
    python upload_rinex.py -d c:\rinex_data
    ```
 
-   - A continuación ingrese su contraseña y password.
+   - A continuación ingrese su usuario y contraseña.
    - Si la autenticación es correcta se comenzará con la subida de archivos.
    - Se subirán archivos .Z o .gz.
    - Se presentarán errores si:
